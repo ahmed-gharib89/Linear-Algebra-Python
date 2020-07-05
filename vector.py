@@ -71,9 +71,21 @@ class Vector(object):
             else:
                 raise e
 
+    def is_zero(self, tolerance=1e-10):
+        return self.magnitude() < tolerance
 
-vec1 = Vector([7.887, 4.138])
-vec2 = Vector([-8.802, 6.776])
-vec3 = Vector([-5.955, -4.904, -1.874])
-vec4 = Vector([-4.496, -8.755, 7.103])
-print(vec1.angle_with(vec2, in_degrees=True))
+    def is_parallel_to(self, v):
+        return(self.is_zero() or
+               v.is_zero() or
+               self.angle_with(v) == 0 or
+               self.angle_with(v) == math.pi)
+
+    def is_orthogonal_to(self, v, tolerance=1e-10):
+        return abs(self.dot(v)) < tolerance
+
+vec1 = Vector([3.183, -7.627])
+vec2 = Vector([-2.668, 5.319])
+vec3 = Vector([7.35, 0.221, 5.188])
+vec4 = Vector([2.751, 8.259, 3.985])
+print(vec1.angle_with(vec2, in_degrees=False))
+print(vec3.angle_with(vec4, in_degrees=True))
