@@ -43,12 +43,29 @@ class Vector(object):
         except ZeroDivisionError:
             raise Exception('Cannot normalize the zero vector')
 
+    def dot(self, v):
+        return sum([x * y for x,y in zip(self.coordinates, v.coordinates)])
 
-vector = Vector([-0.221, 7.437])
-vector2 = Vector([8.813, -1.33, -6.247])
-vec3 = Vector([5.581, -2.136])
-vec4 = Vector([1.966, 3.108, -4.554])
-print(Vector.magnitude(vector))
-print(Vector.magnitude(vector2))
-print(Vector.normalized(vec3))
-print(Vector.normalizedgit(vec4))
+    def angle_with(self, v, in_degrees=False):
+        try:
+            u1 = self.normalized()
+            u2 = v.normalized()
+            angle_in_radians = math.acos(u1.dot(u2))
+
+            if in_degrees:
+                degrees_per_radian = 180. / math.pi
+                return angle_in_radians * degrees_per_radian
+            else:
+                return angle_in_radians
+
+        except Exception as e:
+            if str(e) == self.CANNOT_NORMALIZE_ZERO_VECTOR_MSG:
+                raise Exception('Cannot compute an angle with the zero vector')
+            else:
+                raise e
+
+vec1 = Vector([7.887, 4.138])
+vec2 = Vector([-8.802, 6.776])
+vec3 = Vector([-5.955, -4.904, -1.874])
+vec4 = Vector([-4.496, -8.755, 7.103])
+print(vec1.angle_with(vec2, in_degrees=True))
