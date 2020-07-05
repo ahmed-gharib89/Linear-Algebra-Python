@@ -1,3 +1,4 @@
+import math
 class Vector(object):
     def __init__(self, coordinates):
         try:
@@ -30,10 +31,24 @@ class Vector(object):
         else:
             return Vector([self.coordinates[i] - v.coordinates[i] for i in range(len(self.coordinates))])
 
-    def __mul__(self, n):
-        return Vector([self.coordinates[i] * n for i in range(len(self.coordinates))])
+    def times_scaler(self, n):
+        return Vector([x * n for x in self.coordinates])
+
+    def magnitude(self):
+        return math.sqrt(sum([x ** 2 for x in self.coordinates]))
+
+    def normalized(self):
+        try:
+            return self.times_scaler(1 / self.magnitude())
+        except ZeroDivisionError:
+            raise Exception('Cannot normalize the zero vector')
 
 
-vector = Vector([1.671, -1.012, -0.318])
-vector2 = Vector([-8.223, 0.878])
-print(vector * 7.41)
+vector = Vector([-0.221, 7.437])
+vector2 = Vector([8.813, -1.33, -6.247])
+vec3 = Vector([5.581, -2.136])
+vec4 = Vector([1.966, 3.108, -4.554])
+print(Vector.magnitude(vector))
+print(Vector.magnitude(vector2))
+print(Vector.normalized(vec3))
+print(Vector.normalizedgit(vec4))
